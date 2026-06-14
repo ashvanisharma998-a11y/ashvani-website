@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Website</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" type="image/png" href="logo.png">
+
+<style>
+/* SAME CSS — NO CHANGE */
+body{
+    margin:0;
+    font-family:Arial;
+    height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* LOCK */
+#lock{
+    transition:0.4s;
+}
+
+.box{
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(18px);
+    padding:25px;
+    border-radius:20px;
+    width:280px;
+    text-align:center;
+    animation:fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    50%{transform:translateX(5px);}
+    75%{transform:translateX(-5px);}
+    100%{transform:translateX(0);}
+}
+
+h2{color:white;}
+
+input{
+    width:90%;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    text-align:center;
+    font-size:18px;
+    margin-bottom:10px;
+    letter-spacing:8px;
+}
+
+.keypad{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.keypad button{
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,0.2);
+    color:white;
+    font-size:18px;
+}
+
+.keypad button:active{
+    transform:scale(0.9);
+}
+
+.unlock-btn{
+    margin-top:15px;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#0ea5e9;
+    color:white;
+    font-weight:bold;
+}
+
+#error{
+    color:#ff6b6b;
+    margin-top:10px;
+}
+
+/* SITE */
+#site{
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    color:white;
+    padding:20px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+/* GALLERY */
+.photo{
+    column-count:4;
+    column-gap:10px;
+    padding:15px;
+}
+
+.photo img{
+    width:100%;
+    margin-bottom:10px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.photo img:hover{
+    transform:scale(1.05);
+}
+
+/* INSTAGRAM */
+.footer{
+    text-align:center;
+    padding:30px;
+}
+
+.footer a{
+    display:inline-block;
+    padding:15px 25px;
+    background:linear-gradient(135deg,#ff4d8d,#ff8fb3);
+    color:white;
+    text-decoration:none;
+    border-radius:15px;
+    font-weight:bold;
+}
+
+/* LIGHTBOX */
+#lightbox{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.9);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+#lightbox img{
+    max-width:90%;
+    max-height:80%;
+    border-radius:12px;
+}
+
+.controls button{
+    margin:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .photo{column-count:2;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔊 AUDIO ADDED -->
+<audio id="bgVoice" src="welcome.mp3"></audio>
+
+<!-- LOCK -->
+<div id="lock" class="box">
+<h2>Enter PIN</h2>
+
+<input type="password" id="pin" readonly>
+
+<div class="keypad">
+<button onclick="add('1')">1</button>
+<button onclick="add('2')">2</button>
+<button onclick="add('3')">3</button>
+<button onclick="add('4')">4</button>
+<button onclick="add('5')">5</button>
+<button onclick="add('6')">6</button>
+<button onclick="add('7')">7</button>
+<button onclick="add('8')">8</button>
+<button onclick="add('9')">9</button>
+<button onclick="clr()">C</button>
+<button onclick="add('0')">0</button>
+<button onclick="del()">⌫</button>
+</div>
+
+<button class="unlock-btn" onclick="check()">Unlock</button>
+<div id="error"></div>
+</div>
+
+<!-- SITE -->
+<div id="site">
+
+<div class="header">Welcome ✨</div>
+
+<div class="photo">
+<img src="photo1.jpg" onclick="openImg(this.src)">
+<img src="photo2.jpg" onclick="openImg(this.src)">
+<img src="photo3.jpg" onclick="openImg(this.src)">
+<img src="photo4.jpg" onclick="openImg(this.src)">
+<img src="photo5.jpg" onclick="openImg(this.src)">
+<img src="photo6.jpg" onclick="openImg(this.src)">
+<img src="photo7.jpg" onclick="openImg(this.src)">
+<img src="photo8.jpg" onclick="openImg(this.src)">
+<img src="photo9.jpg" onclick="openImg(this.src)">
+<img src="photo10.jpg" onclick="openImg(this.src)">
+<img src="photo11.jpg" onclick="openImg(this.src)">
+<img src="photo12.jpg" onclick="openImg(this.src)">
+<img src="photo13.jpg" onclick="openImg(this.src)">
+<img src="photo14.jpg" onclick="openImg(this.src)">
+<img src="photo15.jpg" onclick="openImg(this.src)">
+<img src="photo16.jpg" onclick="openImg(this.src)">
+</div>
+
+<div class="footer">
+<a href="https://www.instagram.com/ashvanisharmaaa/" target="_blank">
+📸 @ashvanisharmaaa
+</a>
+</div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeImg()">
+<img id="bigimg">
+
+<div class="controls">
+<button onclick="event.stopPropagation(); prevImg()">⬅</button>
+<button onclick="event.stopPropagation(); nextImg()">➡</button>
+</div>
+</div>
+
+<script>
+let pin="";
+let images=[];
+let current=0;
+
+function add(n){
+if(pin.length<4){
+pin+=n;
+document.getElementById("pin").value=pin;
+}
+}
+
+function del(){
+pin=pin.slice(0,-1);
+document.getElementById("pin").value=pin;
+}
+
+function clr(){
+pin="";
+document.getElementById("pin").value="";
+}
+
+function check(){
+if(pin==="4575"){
+document.getElementById("lock").style.opacity="0";
+
+setTimeout(()=>{
+document.getElementById("lock").style.display="none";
+document.getElementById("site").style.display="block";
+
+// 🔊 AUDIO PLAY
+let audio = document.getElementById("bgVoice");
+audio.currentTime = 0;
+audio.play().catch(e => console.log(e));
+
+},300);
+
+}else{
+document.getElementById("error").innerText="Wrong PIN";
+document.getElementById("lock").style.animation="shake 0.3s";
+navigator.vibrate(200);
+clr();
+}
+}
+
+function openImg(src){
+images=[...document.querySelectorAll('.photo img')].map(i=>i.src);
+current=images.indexOf(src);
+
+document.getElementById("lightbox").style.display="flex";
+document.getElementById("bigimg").src=src;
+}
+
+function nextImg(){
+current=(current+1)%images.length;
+document.getElementById("bigimg").src=images[current];
+}
+
+function prevImg(){
+current=(current-1+images.length)%images.length;
+document.getElementById("bigimg").src=images[current];
+}
+
+function closeImg(){
+document.getElementById("lightbox").style.display="none";
+}
+</script>
+
+</body>
+</html>
